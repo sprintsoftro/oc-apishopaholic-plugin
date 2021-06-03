@@ -17,7 +17,6 @@ class Products extends Base
                 if (!array_get($arData, 'brand_id')) {
                     array_forget($arData, 'brand_id');
                 }
-
                 if (array_get($arData, 'offers') && $obModel->exists) {
                     array_forget($arData, 'offers');
                 }

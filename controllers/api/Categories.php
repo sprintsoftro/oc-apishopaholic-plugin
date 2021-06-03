@@ -19,12 +19,14 @@ class Categories extends Base
      */
     public function tree()
     {
+
         try {
+
             if (!$this->getListResource()) {
                 throw new Exception('listResource is required');
             }
 
-            $obCollection = $this->collection->active()->tree();
+            $obCollection = $this->collection->active();
             return app($this->getListResource(), [$obCollection->collect()]);
         } catch (Exception $e) {
             trace_log($e);
@@ -34,6 +36,9 @@ class Categories extends Base
 
     public function extendIndex()
     {
+
+        // set pagination from url
+        $this->itemsPerPage = 100;
         $this->collection->sort();
     }
 
