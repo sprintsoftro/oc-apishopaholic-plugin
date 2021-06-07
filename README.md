@@ -14,9 +14,14 @@ API Shopaholic has controllers/resources for this plugins, if they are installed
 - [Lovata.OrdersShopaholic](https://octobercms.com/plugin/lovata-ordersshopaholic)
 
 ## Installation
-To install from the [repository](https://github.com/planetadeleste/oc-shopaholic-api), clone it into `plugins/planetadeleste/apishopaholic` and then run `composer update` from your project root in order to pull in the dependencies.
+To install from the [repository](https://github.com/sprintsoftro/oc-apishopaholic-plugin), clone it into `plugins/planetadeleste/apishopaholic` and then run `composer update` from your project root in order to pull in the dependencies.
 
-To install it with **Composer**, run `composer require planetadeleste/oc-apishopaholic-plugin` from your project root.
+
+## This plugin it is s Fork of `planetadeleste/apishopaholic`
+The original plugin can be found on [repository](https://github.com/planetadeleste/oc-shopaholic-api)
+
+To install original plugin with **Composer**, run `composer require planetadeleste/oc-apishopaholic-plugin` from your project root.
+
 
 ## Documentation
 
