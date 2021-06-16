@@ -18,24 +18,30 @@ To install from the [repository](https://github.com/sprintsoftro/oc-apishopaholi
 
 
 ## This plugin it is s Fork of `planetadeleste/apishopaholic`
-The original plugin can be found on [repository](https://github.com/planetadeleste/oc-shopaholic-api)
+The original plugin can be found on [GitHub](https://github.com/planetadeleste/oc-shopaholic-api)
 
 To install original plugin with **Composer**, run `composer require planetadeleste/oc-apishopaholic-plugin` from your project root.
 
 
 ## Documentation
 
-
 ### Endpoints
 
-
-##### Get Categories List
+#### Get Categories List
 
 `GET: /api/v1/categories`
 
 ##### Get Products List
 
 `GET: /api/v1/products`
+
+##### Get Poperies List for specific category
+
+`GET: /api/v1/products/{category_id}/filter-list`
+
+this method will return all properties that have some values in list
+
+
 
 
 
