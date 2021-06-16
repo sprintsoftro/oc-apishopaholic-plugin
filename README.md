@@ -25,6 +25,35 @@ To install original plugin with **Composer**, run `composer require planetadeles
 
 ## Documentation
 
+
+### Endpoints
+
+
+##### Get Categories List
+
+`GET: /api/v1/categories`
+
+##### Get Products List
+
+`GET: /api/v1/products`
+
+
+
+#### Filtering categories/products
+
+for filtering categories, add specific filter criteria through GET
+
+##### for pagination
+
+`GET: /api/v1/products?page=2`
+
+##### to set rows per page
+
+`GET: /api/v1/products?page=2&per_page=25`
+
+
+
+
 ### Usage
 Coming soon
 
