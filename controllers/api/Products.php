@@ -75,12 +75,13 @@ class Products extends Base
     {
         $obCategory = Category::find($category);
         $obPropertyList = $obCategory->getProductPropertyAttribute();
-        $arrPropertyList = [];
+        $arPropertyList = [];
         foreach($obPropertyList as $obProperty){
             // dump($obProperty->property_value->toArray());
-            if(!empty($obProperty->property_value->toArray())) {
+            // if(!empty($obProperty->property_value->toArray())) {
 
-                $arrPropertyList[] = [
+                $arPropertyList[] = [
+                    'id' => $obProperty['id'],
                     'name' => $obProperty['name'],
                     'slug' => $obProperty['slug'],
                     'code' => $obProperty['code'],
@@ -90,9 +91,9 @@ class Products extends Base
                     'values' => $obProperty->property_value->sort()->toArray(),
                 ];
             }
-        }
+        // }
 
-        return $arrPropertyList;
+        return $arPropertyList;
     }
 
     public function getModelClass(): string
