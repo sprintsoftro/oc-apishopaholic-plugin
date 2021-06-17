@@ -8,6 +8,7 @@ use PlanetaDelEste\ApiToolbox\Classes\Api\Base;
 use PlanetaDelEste\ApiToolbox\Plugin;
 use Lovata\FilterShopaholic\Classes\Event\ProductModelHandler;
 use Lovata\Shopaholic\Models\Category;
+use Lovata\PropertiesShopaholic\Classes\Collection\PropertySetCollection;
 
 class Products extends Base
 {
@@ -53,6 +54,18 @@ class Products extends Base
 
     public function extendIndex()
     {
+        $arAppliedPropertyList = input('property');
+
+        if(input('category')){
+            $category_id = input('category');
+            $obCategory = Category::find($category_id);
+        } else {
+            $obCategory = $this->collection->first()->category;
+            $category_id = $obCategory->id;
+        }
+        $obPropertySetList = PropertySetCollection::make()->sort()->code(['focare']);
+        $obProductPropertyCollection = $obPropertySetList->getProductPropertyCollection($this->collection);
+        $this->collection->filterByProperty($arAppliedPropertyList, $obProductPropertyCollection);
         if ($limit = input('filters.limit')) {
             $this->collection->take($limit);
         }

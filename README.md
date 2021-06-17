@@ -25,6 +25,8 @@ To install original plugin with **Composer**, run `composer require planetadeles
 
 ## Documentation
 
+[Exemple of using shopaholic filter](https://shopaholic.one/docs#/modules/filter/examples/examples)
+
 ### Endpoints
 
 #### Get Categories List
@@ -49,11 +51,27 @@ this method will return all properties that have some values in list
 
 for filtering categories, add specific filter criteria through GET
 
-##### for pagination
+
+##### Property
+
+`GET: /api/v1/products?property[:id]=:value`
+
+```json
+{
+    id: "property_id", // this will be get it from Properties List
+    value: "value of filter",
+}
+```
+
+If you have more filter properties, you can concatenate it
+
+`GET: /api/v1/products?property[:id]=:value&property[:id2]=:value2`
+
+##### Pagination
 
 `GET: /api/v1/products?page=2`
 
-##### to set rows per page
+##### Items per page
 
 `GET: /api/v1/products?page=2&per_page=25`
 
