@@ -37,24 +37,28 @@ To install original plugin with **Composer**, run `composer require planetadeles
 
 `GET: /api/v1/products`
 
+##### Get Product Show
+
+`GET: /api/v1/products/{{ product_id }}`
+
 ##### Get Poperies List for specific category
 
-`GET: /api/v1/products/{category_id}/filter-list`
+`GET: /api/v1/products/{{ category_id  }}/filter-list`
 
 this method will return all properties that have some values in list
-
-
-
 
 
 #### Filtering categories/products
 
 for filtering categories, add specific filter criteria through GET
 
+##### Category
+
+`GET: /api/v1/products?category={{ category_id }}`
 
 ##### Property
 
-`GET: /api/v1/products?property[:id]=:value`
+`GET: /api/v1/products?property[{{ id }}]={{ value  }}`
 
 ```json
 {
@@ -65,7 +69,7 @@ for filtering categories, add specific filter criteria through GET
 
 If you have more filter properties, you can concatenate it
 
-`GET: /api/v1/products?property[:id]=:value&property[:id2]=:value2`
+`GET: /api/v1/products?property[{{ id }}]={{ value }}&property[{{ id2 }}]={{ value2 }}`
 
 ##### Pagination
 
@@ -74,6 +78,26 @@ If you have more filter properties, you can concatenate it
 ##### Items per page
 
 `GET: /api/v1/products?page=2&per_page=25`
+
+#### Cart Actions
+
+
+##### Get Cart with items
+
+`GET: /api/v1/cart/data`
+
+##### Add to cart
+
+`POST: /api/v1/cart/add?{{ params }}`
+
+
+```json
+params:
+{
+    cart[0][offer_id]: "product offer_id",
+    cart[0][quantity]: "quantity"
+}
+```
 
 
 
