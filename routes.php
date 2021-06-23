@@ -4,8 +4,15 @@ use PlanetaDelEste\ApiShopaholic\Plugin;
 use System\Classes\PluginManager;
 
 Route::prefix('api/v1')
+
     ->namespace('PlanetaDelEste\ApiShopaholic\Controllers\Api')
-    ->middleware(['throttle:120,1', 'bindings'])
+    ->middleware([
+            \October\Rain\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            'throttle:120,1',
+            'bindings'
+    ])
     ->group(
         function () {
             $bHasOrdersPlugin = PluginManager::instance()->hasPlugin('Lovata.OrdersShopaholic');
