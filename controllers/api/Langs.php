@@ -13,21 +13,34 @@ class Langs extends Base
         $locale = Translator::instance();
         $locale->setLocale($lang);
 
-        $messages = Message::whereRaw("JSON_EXTRACT(`message_data`, '$.{$locale->getLocale()}') <> \"\"")
-            ->select(
-                [
-                    'code',
-                    DB::raw("JSON_UNQUOTE(JSON_EXTRACT(`message_data`, '$.{$locale->getLocale()}')) as `message`")
-                ]
-            )
-            ->lists('message', 'code');
+        if (config('database.default') == 'pgsql') {
+            $messages = Message::whereRaw("message_data::json->>'{$locale->getLocale()}' <> ''")
+                ->select(
+                    [
+                        'code',
+                        DB::raw("message_data::json->>'{$locale->getLocale()}' as message")
+                    ]
+                )
+                ->lists('message', 'code');
+        } else {
+            $messages = Message::whereRaw("JSON_EXTRACT(`message_data`, '$.{$locale->getLocale()}') <> \"\"")
+                ->select(
+                    [
+                        'code',
+                        DB::raw("JSON_UNQUOTE(JSON_EXTRACT(`message_data`, '$.{$locale->getLocale()}')) as `message`")
+                    ]
+                )
+                ->lists('message', 'code');
+        }
+
 
         return response()->json(compact('messages'));
     }
 
     public function missing(): JsonResponse
     {
-        $data = post();
+        $data = input();
+
         if ($lang = array_get($data, 'lang')) {
             $locale = Translator::instance();
             if ($lang != $locale->getLocale()) {
@@ -35,7 +48,7 @@ class Langs extends Base
             }
         }
 
-        $message = static::tr(array_get($data, 'message'));
+        $message = static::tr(array_get($data, 'message'), [], $lang);
         return response()->json(compact('message'));
     }
 }

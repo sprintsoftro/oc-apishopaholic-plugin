@@ -10,21 +10,20 @@ use PlanetaDelEste\ApiToolbox\Classes\Resource\Base;
  */
 class ItemResource extends Base
 {
-    public function getData()
+    public function getData(): array
     {
         return [
             'thumb'       => $this->getThumb(300, 300, ['mode' => 'crop']),
             'path'        => $this->getPath(),
             'file_name'   => $this->getFilename(),
             'ext'         => $this->getExtension(),
-            'title'       => $this->title,
-            'description' => $this->description
         ];
     }
 
-    public function getDataKeys()
+    public function getDataKeys(): array
     {
         return [
+            'disk_name',
             'thumb',
             'path',
             'file_name',

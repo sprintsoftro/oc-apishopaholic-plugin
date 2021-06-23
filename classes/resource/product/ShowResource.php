@@ -8,7 +8,7 @@
  */
 class ShowResource extends ItemResource
 {
-    public function getDataKeys()
+    public function getDataKeys(): array
     {
         return [
             'active',
@@ -29,6 +29,7 @@ class ShowResource extends ItemResource
             'secondary_thumb',
             'slug',
             'thumbnail',
+            'brand'
         ];
     }
 }

@@ -1,5 +1,19 @@
 <?php
+Route::prefix('products')
+    ->name('products.')
+    ->group(
+        function () {
+            Route::get('list', 'Products@list')->name('list');
+            Route::get('{id}/offers', 'Products@offers')->name('offers');
+        }
+    );
+Route::apiResource('products', 'Products', ['only' => ['index', 'show']]);
 
-Route::get('list', 'Products@list')->name('list');
-Route::get('{category}/filter-list', 'Products@filterList')->name('filterlist');
-// Route::resource('products', 'Products');
+if (has_jwtauth_plugin()) {
+    Route::middleware(['jwt.auth'])
+        ->group(
+            function () {
+                Route::apiResource('products', 'Products', ['only' => ['store', 'update', 'destroy']]);
+            }
+        );
+}

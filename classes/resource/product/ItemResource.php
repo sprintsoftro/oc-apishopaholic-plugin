@@ -1,10 +1,11 @@
 <?php namespace PlanetaDelEste\ApiShopaholic\Classes\Resource\Product;
 
+use PlanetaDelEste\ApiShopaholic\Classes\Resource\Brand\ItemResource as ItemResourceBrand;
 use PlanetaDelEste\ApiToolbox\Classes\Resource\Base as BaseResource;
 use PlanetaDelEste\ApiShopaholic\Classes\Resource\Category\ItemResource as ItemResourceCategory;
 use PlanetaDelEste\ApiShopaholic\Classes\Resource\File\IndexCollection as IndexCollectionImages;
 use PlanetaDelEste\ApiShopaholic\Classes\Resource\Offer\IndexCollection as IndexCollectionOffer;
-use PlanetaDelEste\ApiToolbox\Plugin;
+use PlanetaDelEste\ApiShopaholic\Plugin;
 use System\Classes\PluginManager;
 
 /**
@@ -15,10 +16,7 @@ use System\Classes\PluginManager;
  */
 class ItemResource extends BaseResource
 {
-    /**
-     * @return array|void
-     */
-    public function getData()
+    public function getData(): array
     {
         return [
             'preview_image'   => $this->preview_image ? $this->preview_image->getPath() : null,
@@ -33,10 +31,11 @@ class ItemResource extends BaseResource
             'secondary_thumb' => $this->images
                 ? collect($this->images)->first()->getThumb(300, 300, ['mode' => 'crop'])
                 : null,
+            'brand' => $this->brand ? ItemResourceBrand::make($this->brand) : null
         ];
     }
 
-    public function getDataKeys()
+    public function getDataKeys(): array
     {
         return [
             'id',
@@ -52,9 +51,9 @@ class ItemResource extends BaseResource
         ];
     }
 
-    protected function getEvent()
+    protected function getEvent(): ?string
     {
-        return Plugin::EVENT_ITEMRESOURCE_DATA;
+        return Plugin::EVENT_ITEMRESOURCE_DATA.'.product';
     }
 
     protected function formatProperty()

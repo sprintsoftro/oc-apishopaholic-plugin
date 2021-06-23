@@ -8,6 +8,7 @@ use PlanetaDelEste\ApiShopaholic\Classes\Store\CategoryListStore;
 
 /**
  * Class CategoryModelHandler
+ *
  * @package PlanetaDelEste\ApiShopaholic\Classes\Event\Category
  */
 class CategoryModelHandler extends ModelHandler
@@ -19,9 +20,11 @@ class CategoryModelHandler extends ModelHandler
     {
         parent::subscribe($obEvent);
 
-        Category::extend(function ($obModel){
-            $this->extendModel($obModel);
-        });
+        Category::extend(
+            function ($obModel) {
+                $this->extendModel($obModel);
+            }
+        );
 
         CategoryCollection::extend(
             function ($obCollection) {
@@ -44,29 +47,43 @@ class CategoryModelHandler extends ModelHandler
      */
     protected function extendCollection($obCollection)
     {
-        $obCollection->addDynamicMethod('sort', function($sSort = CategoryListStore::SORT_CREATED_AT_ASC) use ($obCollection) {
-            $arResultIDList = CategoryListStore::instance()->sorting->get($sSort);
-            return $obCollection->intersect($arResultIDList);
-        });
+        $obCollection->addDynamicMethod(
+            'sort',
+            function ($sSort = CategoryListStore::SORT_CREATED_AT_ASC) use ($obCollection) {
+                $arResultIDList = CategoryListStore::instance()->sorting->get($sSort);
+                return $obCollection->applySorting($arResultIDList);
+            }
+        );
+
+        $obCollection->addDynamicMethod(
+            'root',
+            function () use ($obCollection) {
+                $arResultIDList = CategoryListStore::instance()->root->get();
+                return $obCollection->applySorting($arResultIDList);
+            }
+        );
     }
 
     /**
      * Get model class name
+     *
      * @return string
      */
-    protected function getModelClass()
+    protected function getModelClass(): string
     {
         return Category::class;
     }
 
     /**
      * Get item class name
+     *
      * @return string
      */
-    protected function getItemClass()
+    protected function getItemClass(): string
     {
         return CategoryItem::class;
     }
+
     /**
      * After create event handler
      */

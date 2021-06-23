@@ -17,24 +17,25 @@ use Lovata\Shopaholic\Models\Product;
 use Lovata\Shopaholic\Models\PromoBlock;
 use Lovata\Shopaholic\Models\Tax;
 
+use October\Rain\Events\Dispatcher;
 use PlanetaDelEste\ApiShopaholic\Classes\Resource\Category\ItemResource as ItemResourceCategory;
 use PlanetaDelEste\ApiShopaholic\Classes\Resource\Category\ListCollection;
+use PlanetaDelEste\ApiShopaholic\Plugin as PluginApiShopaholic;
 use PlanetaDelEste\ApiToolbox\Plugin;
 use PlanetaDelEste\BuddiesGroup\Classes\Collection\GroupCollection;
 use PlanetaDelEste\BuddiesGroup\Classes\Collection\UserCollection;
-use System\Classes\PluginManager;
 
 class ApiShopaholicHandle
 {
     /**
-     * @param \October\Rain\Events\Dispatcher $obEvent
+     * @param Dispatcher $obEvent
      */
-    public function subscribe($obEvent)
+    public function subscribe(Dispatcher $obEvent)
     {
         $obEvent->listen(
-            Plugin::EVENT_ITEMRESOURCE_DATA,
-            function ($arData, $obItemResource) {
-                return $this->onExtendItem($arData, $obItemResource);
+            PluginApiShopaholic::EVENT_ITEMRESOURCE_DATA.'.category',
+            function ($obItemResource, $arData) {
+                return $this->onExtendItem($obItemResource, $arData);
             }
         );
 
@@ -48,29 +49,27 @@ class ApiShopaholicHandle
 
     /**
      * @param array                                            $arData
-     * @param \PlanetaDelEste\ApiToolbox\Classes\Resource\Base $obItemResource
+     * @param ItemResourceCategory $obItemResource
      *
      * @return array
      */
-    protected function onExtendItem($arData, $obItemResource)
+    protected function onExtendItem(ItemResourceCategory $obItemResource, array $arData): ?array
     {
-        if ($obItemResource instanceof ItemResourceCategory) {
-            if (input('filters.tree')) {
-                return [
-                    'children' => empty($obItemResource->children_id_list)
-                        ? []
-                        : ListCollection::make($obItemResource->children->collect())
-                ];
-            }
+        if (input('filters.tree')) {
+            return [
+                'children' => empty($obItemResource->children_id_list)
+                    ? []
+                    : ListCollection::make($obItemResource->children->collect())
+            ];
         }
 
         return null;
     }
 
-    protected function addCollections()
+    protected function addCollections(): array
     {
         // Main Shopaholic collections
-        $arCollectionClasses = [
+        return [
             Brand::class      => BrandCollection::class,
             Category::class   => CategoryCollection::class,
             Currency::class   => CurrencyCollection::class,
@@ -81,17 +80,5 @@ class ApiShopaholicHandle
             User::class       => UserCollection::class,
             Group::class      => GroupCollection::class
         ];
-
-        if (PluginManager::instance()->hasPlugin('Lovata.OrdersShopaholic')) {
-            // OrderShopaholic plugin collections
-            $arCollectionClasses += [
-                \Lovata\OrdersShopaholic\Models\CartPosition::class  => \Lovata\OrdersShopaholic\Classes\Collection\CartPositionCollection::class,
-                \Lovata\OrdersShopaholic\Models\Order::class         => \Lovata\OrdersShopaholic\Classes\Collection\OrderCollection::class,
-                \Lovata\OrdersShopaholic\Models\OrderPosition::class => \Lovata\OrdersShopaholic\Classes\Collection\OrderPositionCollection::class,
-                \Lovata\OrdersShopaholic\Models\PaymentMethod::class => \Lovata\OrdersShopaholic\Classes\Collection\PaymentMethodCollection::class,
-            ];
-        }
-
-        return $arCollectionClasses;
     }
 }

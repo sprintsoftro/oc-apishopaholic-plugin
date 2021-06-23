@@ -1,11 +1,11 @@
-<?php namespace PlanetaDelEste\ApiShopaholic\Classes\Resource\Order;
+<?php namespace PlanetaDelEste\ApiShopaholic\Classes\Resource\Currency;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
  * Class IndexCollection
  *
- * @package PlanetaDelEste\ApiShopaholic\Classes\Resource\Order
+ * @package PlanetaDelEste\ApiShopaholic\Classes\Resource\Currency
  */
 class IndexCollection extends ResourceCollection
 {
@@ -14,5 +14,5 @@ class IndexCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection;
-}
+    }
 }
