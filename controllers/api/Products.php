@@ -10,6 +10,7 @@ use PlanetaDelEste\ApiToolbox\Plugin;
 use Lovata\FilterShopaholic\Classes\Event\ProductModelHandler;
 use Lovata\Shopaholic\Models\Category;
 use Lovata\PropertiesShopaholic\Classes\Collection\PropertySetCollection;
+use Event;
 
 class Products extends Base
 {
@@ -92,6 +93,8 @@ class Products extends Base
         // }
 
         return $arPropertyList;
+    }
+
     /**
      * @param int $iProductID
      *
