@@ -79,25 +79,9 @@ If you have more filter properties, you can concatenate it
 
 `GET: /api/v1/products?page=2&per_page=25`
 
-#### Cart Actions
 
 
-##### Get Cart with items
 
-`GET: /api/v1/cart/data`
-
-##### Add to cart
-
-`POST: /api/v1/cart/add?{{ params }}`
-
-
-```json
-params:
-{
-    cart[0][offer_id]: "product offer_id",
-    cart[0][quantity]: "quantity"
-}
-```
 
 
 

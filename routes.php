@@ -3,13 +3,7 @@
 Route::prefix('api/v1')
 
     ->namespace('PlanetaDelEste\ApiShopaholic\Controllers\Api')
-    ->middleware([
-            \October\Rain\Cookie\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            'throttle:120,1',
-            'bindings'
-    ])
+    ->middleware(['throttle:120,1', 'bindings'])
     ->group(
         function () {
             $arRoutes = [
