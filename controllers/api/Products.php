@@ -76,7 +76,7 @@ class Products extends Base
     {
 
         $this->collection->category($category);
-        $obPropertySetList = PropertySetCollection::make()->sort()->code(['filter']);
+        $obPropertySetList = PropertySetCollection::make()->sort();
         $obProductPropertyCollection = $obPropertySetList->getProductPropertyCollection($this->collection);
 
         $arPropertyList = [];
