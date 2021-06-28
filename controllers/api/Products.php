@@ -62,8 +62,10 @@ class Products extends Base
             $obCategory = $this->collection->first()->category;
             $category_id = $obCategory->id;
         }
-        $obPropertySetList = PropertySetCollection::make()->sort()->code(['focare']);
+        $obPropertySetList = PropertySetCollection::make()->sort()->code(['filter']);
         $obProductPropertyCollection = $obPropertySetList->getProductPropertyCollection($this->collection);
+        // dump($arAppliedPropertyList);
+        // dd($obProductPropertyCollection->toArray());
         $this->collection->filterByProperty($arAppliedPropertyList, $obProductPropertyCollection);
         if ($limit = input('filters.limit')) {
             $this->collection->take($limit);
@@ -72,25 +74,27 @@ class Products extends Base
 
     public function filterList($category)
     {
-        $obCategory = Category::find($category);
-        $obPropertyList = $obCategory->getProductPropertyAttribute();
-        $arPropertyList = [];
-        foreach($obPropertyList as $obProperty){
-            // dump($obProperty->property_value->toArray());
-            // if(!empty($obProperty->property_value->toArray())) {
 
+        $this->collection->category($category);
+        $obPropertySetList = PropertySetCollection::make()->sort()->code(['filter']);
+        $obProductPropertyCollection = $obPropertySetList->getProductPropertyCollection($this->collection);
+
+        $arPropertyList = [];
+        foreach($obProductPropertyCollection as $obProperty){
+            $arProperty = $obProperty->toArray();
+            if($arProperty['in_filter']){
                 $arPropertyList[] = [
-                    'id' => $obProperty['id'],
-                    'name' => $obProperty['name'],
-                    'slug' => $obProperty['slug'],
-                    'code' => $obProperty['code'],
-                    'description' => $obProperty['description'],
-                    'filter_type' => $obProperty['pivot']['filter_type'],
-                    'filter_name' => $obProperty['pivot']['filter_name'],
-                    'values' => $obProperty->property_value->sort()->toArray(),
+                    'id' => $arProperty['id'],
+                    'name' => $arProperty['name'],
+                    'slug' => $arProperty['slug'],
+                    'code' => $arProperty['code'],
+                    'description' => $arProperty['description'],
+                    'filter_type' => $arProperty['filter_type'],
+                    'filter_name' => $arProperty['filter_name'],
+                    'values' => $obProperty->property_value->toArray(),
                 ];
             }
-        // }
+        }
 
         return $arPropertyList;
     }
