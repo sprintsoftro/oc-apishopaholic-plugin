@@ -92,6 +92,7 @@ class Products extends Base
                     'filter_type' => $arProperty['filter_type'],
                     'filter_name' => $arProperty['filter_name'],
                     'values' => $obProperty->property_value->toArray(),
+                    'measure' => $obProperty->measure->name,
                 ];
             }
         }
