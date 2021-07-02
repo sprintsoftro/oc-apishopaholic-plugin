@@ -31,7 +31,8 @@ class ItemResource extends BaseResource
             'secondary_thumb' => $this->images
                 ? collect($this->images)->first()->getThumb(300, 300, ['mode' => 'crop'])
                 : null,
-            'brand' => $this->brand ? ItemResourceBrand::make($this->brand) : null
+            'brand' => $this->brand ? ItemResourceBrand::make($this->brand) : null,
+            'seo_params' => $this->seo_param->toArray()
         ];
     }
 

@@ -29,7 +29,8 @@ class ShowResource extends ItemResource
             'secondary_thumb',
             'slug',
             'thumbnail',
-            'brand'
+            'brand',
+            'seo_params'
         ];
     }
 }
